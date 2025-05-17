@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ödeme - Otobüs Biletim</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom, #e0f7fa, #b2ebf2, #ffffff);
+      color: #004d40;
+      min-height: 100vh;
+      padding: 0;
+    }
+    
+    header {
+      background-color: #b2ebf2;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    
+    .logo a {
+      text-decoration: none;
+      color: #004d40;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+    
+    .container {
+      max-width: 900px;
+      margin: 30px auto;
+      display: flex;
+      gap: 30px;
+    }
+    
+    .payment-summary {
+      flex: 1;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      padding: 25px;
+    }
+    
+    .payment-form {
+      flex: 1;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      padding: 25px;
+    }
+    
+    h2 {
+      color: #006064;
+      margin-top: 0;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #e0f7fa;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: #00838f;
+    }
+    
+    .form-row {
+      display: flex;
+      gap: 15px;
+    }
+    
+    .form-row .form-group {
+      flex: 1;
+    }
+    
+    /* Ensure consistent field alignments */
+    .form-group input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 5px;
+      border: 1px solid #b2ebf2;
+      font-size: 1rem;
+      box-sizing: border-box;
+      display: block;
+    }
+    
+    .btn-primary {
+      background-color: #00838f;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 5px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      width: 100%;
+    }
+    
+    .btn-primary:hover {
+      background-color: #006064;
+    }
+    
+    .info-box {
+      background-color: #e0f7fa;
+      padding: 15px;
+      border-radius: 5px;
+      margin-top: 20px;
+      font-size: 0.9rem;
+      color: #006064;
+    }
+    
+    .ticket-details {
+      margin-bottom: 20px;
+    }
+    
+    .ticket-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid #e0f7fa;
+    }
+    
+    .ticket-label {
+      font-weight: bold;
+      color: #006064;
+    }
+    
+    .ticket-value {
+      color: #004d40;
+    }
+    
+    .total-price {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #006064;
+      text-align: right;
+      margin-top: 20px;
+    }
+ 
+
+    .slider-container {
+  position: relative;
+  width: 90%;
+  max-width: 900px;
+  margin: auto;
+  overflow: hidden;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.slider-track {
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 10px 20px;
+}
+
+.slider-track::-webkit-scrollbar {
+  display: none;
+}
+
+.card {
+  min-width: 180px;
+  max-width: 180px;
+  background: linear-gradient(135deg, #e0f7fa, #ffffff);
+  border-radius: 10px;
+  padding: 15px;
+  margin-right: 12px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.08);
+}
+
+.card i {
+  font-size: 28px;
+  color: #546c70;
+  margin-bottom: 10px;
+}
+
+.card h3 {
+  font-size: 16px;
+  margin: 8px 0 5px;
+  color: #007c91;
+}
+
+.card p {
+  font-size: 13px;
+  color: #0c0c0c;
+  margin-bottom: 10px;
+}
+
+.card button {
+  background-color: #1a282a;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  font-size: 13px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #ffffff;
+  border: none;
+  padding: 10px;
+  font-size: 18px;
+  cursor: pointer;
+  z-index: 10;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  border-radius: 50%;
+}
+
+.nav-btn.left {
+  left: 10px;
+}
+
+.nav-btn.right {
+  right: 10px;
+}
+
+
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <a href="anasayfa.html">Otobüs Biletim</a>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="payment-summary">
+      <h2><i class="fas fa-ticket-alt"></i> Bilet Özeti</h2>
+      
+      <div class="ticket-details">
+        <div class="ticket-row">
+          <span class="ticket-label">Firma:</span>
+          <span class="ticket-value" id="company">Metro Turizm</span>
+        </div>
+        <div class="ticket-row">
+          <span class="ticket-label">Güzergah:</span>
+          <span class="ticket-value" id="route">İstanbul → Ankara</span>
+        </div>
+        <div class="ticket-row">
+          <span class="ticket-label">Tarih:</span>
+          <span class="ticket-value" id="date">25.07.2023</span>
+        </div>
+        <div class="ticket-row">
+          <span class="ticket-label">Saat:</span>
+          <span class="ticket-value" id="time">14:30</span>
+        </div>
+        <div class="ticket-row">
+          <span class="ticket-label">Koltuk Numarası:</span>
+          <span class="ticket-value" id="seats">A5, B5</span>
+        </div>
+        <div class="ticket-row">
+          <span class="ticket-label">Yolcu Sayısı:</span>
+          <span class="ticket-value" id="passengers">2</span>
+        </div>
+      </div>
+      
+      <div class="total-price">
+        Toplam: <span id="total-price">500,00 TL</span>
+      </div>
+    </div>
+    
+    <div class="payment-form">
+      <h2><i class="fas fa-credit-card"></i> Ödeme Bilgileri</h2>
+      
+      <form id="paymentForm">
+        <div class="form-group">
+          <label for="cardNumber">Kart Numarası</label>
+          <input type="text" id="cardNumber" required placeholder="1234 5678 9012 3456">
+        </div>
+        
+        <div class="form-group">
+          <label for="cvv">CVV</label>
+          <input type="number" id="cvv" required placeholder="123" maxlength="3" min="100" max="999" oninput="if(this.value.length > 3) this.value = this.value.slice(0, 3)">
+        </div>
+        
+        <div class="info-box">
+          <i class="fas fa-shield-alt"></i> Bu demo sitesinde ödeme bilgileriniz kaydedilmez ve gerçek ödeme işlemi gerçekleştirilmez.
+        </div>
+        
+        <button type="button" class="btn-primary" onclick="completePayment()">Ödemeyi Tamamla</button>
+      </form>
+    </div>
+  </div>
+
+
+   <!-- REKLAM -->
+  <div class="slider-container">
+    <button class="nav-btn left"><i class="fas fa-chevron-left"></i></button>
+    <button class="nav-btn right"><i class="fas fa-chevron-right"></i></button>
+  
+    <div class="slider-track">
+      <div class="card">
+        <i class="fas fa-hotel"></i>
+        <h3>Otel Rezervasyonu</h3>
+        <p>300 TL İndirim Kodu!</p>
+        <button>Detaylı Bilgi</button>
+      </div>
+  
+      <div class="card">
+        <i class="fas fa-bus-alt"></i>
+        <h3>Otobüs Bileti</h3>
+        <p>Seçili Firmalarda İndirim!</p>
+        <button>Detaylı Bilgi</button>
+      </div>
+  
+      <div class="card">
+        <i class="fas fa-credit-card"></i>
+        <h3>Maximum</h3>
+        <p>100TL MaxiPuan!</p>
+        <button>Detaylı Bilgi</button>
+      </div>
+  
+      <div class="card">
+        <i class="fas fa-car"></i>
+        <h3>Araç Kiralama</h3>
+        <p>250 TL İndirim!</p>
+        <button>Detaylı Bilgi</button>
+      </div>
+    </div>
+
+  <script>
+    // URL parametrelerini al
+    function getQueryParams() {
+      const params = {};
+      const queryString = window.location.search;
+      const urlParams = new URLSearchParams(queryString);
+      
+      for (const [key, value] of urlParams.entries()) {
+        params[key] = value;
+      }
+      
+      return params;
+    }
+
+    
+    // Sayfa yüklendiğinde bilet bilgilerini güncelle
+    document.addEventListener('DOMContentLoaded', function() {
+      const params = getQueryParams();
+      
+      // Eğer URL parametreleri varsa, bilet özetini güncelle
+      if (Object.keys(params).length > 0) {
+        document.getElementById('company').textContent = params.company || 'Metro Turizm';
+        document.getElementById('route').textContent = `${params.departure || 'İstanbul'} → ${params.arrival || 'Ankara'}`;
+        document.getElementById('date').textContent = params.date || '25.07.2023';
+        document.getElementById('time').textContent = params.time || '14:30';
+        document.getElementById('seats').textContent = params.seats || 'A5, B5';
+        document.getElementById('passengers').textContent = params.passengerCount || '2';
+        document.getElementById('total-price').textContent = params.price || '500,00 TL';
+      }
+    });
+    
+    function completePayment() {
+      // Form alanlarının dolu olup olmadığını kontrol et
+      const cardNumber = document.getElementById('cardNumber').value;
+      const cvv = document.getElementById('cvv').value;
+      
+      if (!cardNumber || !cvv) {
+        alert('Lütfen kart bilgilerini doldurun!');
+        return;
+      }
+      
+      // CVV'nin 3 haneli olduğunu kontrol et
+      if (cvv.length !== 3 || isNaN(cvv)) {
+        alert('CVV 3 haneli olmalıdır!');
+        return;
+      }
+      
+      // Ödeme başarılı mesajı göster
+      alert('Ödeme başarıyla tamamlandı!\nBiletiniz e-posta adresinize gönderildi. İyi yolculuklar 🚌✨');
+      
+      // Kullanıcı paneline yönlendir
+      window.location.href = 'user-panel.html';
+    }
+
+//reklam
+    const slider = document.querySelector(".slider-track");
+const leftBtn = document.querySelector(".nav-btn.left");
+const rightBtn = document.querySelector(".nav-btn.right");
+
+leftBtn.addEventListener("click", () => {
+  slider.scrollBy({ left: -300, behavior: "smooth" });
+});
+
+rightBtn.addEventListener("click", () => {
+  slider.scrollBy({ left: 300, behavior: "smooth" });
+});
+
+
+  </script>
+</body>
+</html>

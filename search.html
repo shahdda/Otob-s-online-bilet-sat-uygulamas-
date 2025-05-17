@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Sefer Ara</title>
+  <style>
+    body {
+      background-color: #e0f7fa;;
+      font-family: Arial, sans-serif;
+    }
+    .container {
+      max-width: 600px;
+      margin: 60px auto;
+      padding: 30px;
+      background-color: #e0f7fa;;
+      border-radius: 15px;
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    }
+    h2 {
+      text-align: center;
+      color: black;
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    select, input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+    }
+    button {
+      width: 100%;
+      margin-top: 20px;
+      padding: 12px;
+      background-color: #45b0d0;
+      color: black;
+      font-size: 16px;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>Sefer Ara</h2>
+    <form>
+      <label for="nereden">Nereden:</label>
+      <select id="nereden">
+        <option>İstanbul</option>
+        <option>Ankara</option>
+        <option>İzmir</option>
+      </select>
+
+      <label for="nereye">Nereye:</label>
+      <select id="nereye">
+        <option>Antalya</option>
+        <option>Bursa</option>
+        <option>Adana</option>
+      </select>
+
+      <label for="gidis">Gidiş Tarihi:</label>
+      <input type="date" id="gidis">
+
+      <label for="donus">Dönüş Tarihi:</label>
+      <input type="date" id="donus">
+
+      <button type="submit">Otobüsleri Listele</button>
+    </form>
+  </div>
+</body>
+</html>

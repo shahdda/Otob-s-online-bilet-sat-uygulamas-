@@ -1,0 +1,1136 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kullanıcı Paneli - Otobüs Biletim</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom, #e0f7fa, #b2ebf2, #ffffff);
+      color: #004d40;
+      min-height: 100vh;
+    }
+    
+    header {
+      background-color: #b2ebf2;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    
+    .logo a {
+      text-decoration: none;
+      color: #004d40;
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+    
+    .user-menu {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      position: relative;
+    }
+    
+    .user-avatar {
+      width: 35px;
+      height: 35px;
+      background-color: #26c6da;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+    }
+    
+    .logout-btn {
+      background-color: #00838f;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    
+    .logout-btn:hover {
+      background-color: #006064;
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 30px auto;
+      padding: 0 20px;
+      display: flex;
+      gap: 30px;
+    }
+    
+    .sidebar {
+      width: 250px;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      padding: 20px 0;
+    }
+    
+    .sidebar-menu {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+    
+    .sidebar-menu li {
+      margin-bottom: 5px;
+    }
+    
+    .sidebar-menu a {
+      display: flex;
+      align-items: center;
+      padding: 12px 20px;
+      color: #006064;
+      text-decoration: none;
+      transition: background-color 0.3s;
+      font-weight: bold;
+    }
+    
+    .sidebar-menu a:hover, .sidebar-menu a.active {
+      background-color: #e0f7fa;
+    }
+    
+    .sidebar-menu i {
+      margin-right: 10px;
+      width: 20px;
+      text-align: center;
+    }
+    
+    .content {
+      flex: 1;
+    }
+    
+    .panel-card {
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      padding: 25px;
+      margin-bottom: 30px;
+    }
+    
+    .panel-card h2 {
+      margin-top: 0;
+      color: #006064;
+      display: flex;
+      align-items: center;
+      font-size: 1.5rem;
+    }
+    
+    .panel-card h2 i {
+      margin-right: 10px;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: #00838f;
+    }
+    
+    .form-group input, .form-group select {
+      width: 100%;
+      padding: 12px;
+      border-radius: 5px;
+      border: 1px solid #b2ebf2;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+    
+    .form-group input:focus {
+      outline: none;
+      border-color: #00acc1;
+      box-shadow: 0 0 5px rgba(0, 172, 193, 0.3);
+    }
+    
+    .form-row {
+      display: flex;
+      gap: 15px;
+    }
+    
+    .form-row .form-group {
+      flex: 1;
+    }
+    
+    .btn-primary {
+      background-color: #00838f;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 5px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    
+    .btn-primary:hover {
+      background-color: #006064;
+    }
+    
+    .tab-content {
+      display: none;
+    }
+    
+    .tab-content.active {
+      display: block;
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    
+    th, td {
+      padding: 15px;
+      text-align: left;
+      border-bottom: 1px solid #e0f7fa;
+    }
+    
+    th {
+      color: #006064;
+      font-weight: bold;
+    }
+    
+    tr:hover {
+      background-color: #f9fdfe;
+    }
+    
+    .status-badge {
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 15px;
+      font-size: 0.85rem;
+      text-align: center;
+      font-weight: bold;
+    }
+    
+    .status-active {
+      background-color: #e8f5e9;
+      color: #2e7d32;
+    }
+    
+    .status-completed {
+      background-color: #e0f2f1;
+      color: #00796b;
+    }
+    
+    .status-cancelled {
+      background-color: #ffebee;
+      color: #c62828;
+    }
+    
+    .welcome-message {
+      font-size: 1.8rem;
+      color: #006064;
+      margin-bottom: 20px;
+    }
+    
+    .dashboard-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+    
+    .dashboard-card {
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      display: flex;
+      align-items: center;
+    }
+    
+    .card-icon {
+      width: 50px;
+      height: 50px;
+      background-color: #e0f7fa;
+      color: #006064;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 1.5rem;
+      margin-right: 15px;
+    }
+    
+    .card-content h3 {
+      margin: 0;
+      font-size: 1.8rem;
+      color: #006064;
+    }
+    
+    .card-content p {
+      margin: 5px 0 0;
+      color: #757575;
+    }
+    
+    /* Bilet Satın Al Stili */
+    .route-card {
+      background-color: #f9fdfe;
+      border-radius: 8px;
+      padding: 15px;
+      margin-bottom: 15px;
+      border: 1px solid #e0f7fa;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    
+    .route-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+    
+    .route-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      border-bottom: 1px solid #e0f7fa;
+      padding-bottom: 10px;
+    }
+    
+    .route-company {
+      display: flex;
+      align-items: center;
+    }
+    
+    .route-company img {
+      width: 40px;
+      height: 40px;
+      margin-right: 10px;
+      border-radius: 5px;
+    }
+    
+    .route-price {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #006064;
+    }
+    
+    .route-details {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 15px;
+    }
+    
+    .route-info {
+      flex: 1;
+      text-align: center;
+    }
+    
+    .route-city {
+      font-weight: bold;
+      color: #006064;
+      font-size: 1.1rem;
+    }
+    
+    .route-time {
+      font-size: 1.2rem;
+      margin: 5px 0;
+    }
+    
+    .route-date {
+      color: #757575;
+    }
+    
+    .route-journey {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #757575;
+    }
+    
+    .route-journey i {
+      margin: 0 10px;
+      color: #26c6da;
+    }
+    
+    .route-features {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px solid #e0f7fa;
+    }
+    
+    .feature {
+      display: flex;
+      align-items: center;
+      color: #757575;
+      font-size: 0.9rem;
+    }
+    
+    .feature i {
+      margin-right: 5px;
+      color: #26c6da;
+    }
+    
+    .seat-selection {
+      margin-top: 20px;
+      border-top: 1px solid #e0f7fa;
+      padding-top: 15px;
+      display: none;
+    }
+    
+    .bus-layout {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 15px;
+    }
+    
+    .seat {
+      background-color: #e0f7fa;
+      border: 1px solid #b2ebf2;
+      border-radius: 5px;
+      padding: 8px;
+      text-align: center;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    
+    .seat:hover {
+      background-color: #b2ebf2;
+    }
+    
+    .seat.selected {
+      background-color: #26c6da;
+      color: white;
+    }
+    
+    .seat.occupied {
+      background-color: #eeeeee;
+      color: #9e9e9e;
+      cursor: not-allowed;
+    }
+    
+    .seat.empty {
+      visibility: hidden;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <a href="anasayfa.html">Otobüs Biletim</a>
+    </div>
+    <div class="user-menu">
+      <div class="user-info">
+        <div class="user-avatar">
+          <i class="fas fa-user"></i>
+        </div>
+        <span>Merhaba, Kullanıcı</span>
+      </div>
+      <button class="logout-btn" onclick="location.href='anasayfa.html'">Çıkış Yap</button>
+    </div>
+  </header>
+  
+  <div class="container">
+    <div class="sidebar">
+      <ul class="sidebar-menu">
+        <li><a href="#" onclick="showTab('dashboard', this)" class="active"><i class="fas fa-home"></i> Ana Sayfa</a></li>
+        <li><a href="#" onclick="showTab('tickets', this)"><i class="fas fa-ticket-alt"></i> Biletlerim</a></li>
+        <li><a href="#" onclick="showTab('buy-ticket', this)"><i class="fas fa-shopping-cart"></i> Bilet Satın Al</a></li>
+        <li><a href="#" onclick="showTab('profile', this)"><i class="fas fa-user-edit"></i> Profil Bilgileri</a></li>
+        <li><a href="#" onclick="showTab('password', this)"><i class="fas fa-key"></i> Şifre Değiştir</a></li>
+        <li><a href="#" onclick="showTab('notifications', this)"><i class="fas fa-bell"></i> Bildirimler</a></li>
+        <li><a href="anasayfa.html"><i class="fas fa-search"></i> Sefer Ara</a></li>
+      </ul>
+    </div>
+    
+    <div class="content">
+      <!-- Ana Sayfa -->
+      <div id="dashboard" class="tab-content active">
+        <h1 class="welcome-message">Hoş Geldiniz, Kullanıcı!</h1>
+        
+        <div class="dashboard-cards">
+          <div class="dashboard-card">
+            <div class="card-icon">
+              <i class="fas fa-ticket-alt"></i>
+            </div>
+            <div class="card-content">
+              <h3>3</h3>
+              <p>Aktif Bilet</p>
+            </div>
+          </div>
+          
+          <div class="dashboard-card">
+            <div class="card-icon">
+              <i class="fas fa-history"></i>
+            </div>
+            <div class="card-content">
+              <h3>12</h3>
+              <p>Toplam Yolculuk</p>
+            </div>
+          </div>
+          
+          <div class="dashboard-card">
+            <div class="card-icon">
+              <i class="fas fa-map-marker-alt"></i>
+            </div>
+            <div class="card-content">
+              <h3>8</h3>
+              <p>Ziyaret Edilen Şehir</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="panel-card">
+          <h2><i class="fas fa-clock"></i> Yaklaşan Seferleriniz</h2>
+          <table>
+            <thead>
+              <tr>
+                <th>Tarih</th>
+                <th>Saat</th>
+                <th>Nereden</th>
+                <th>Nereye</th>
+                <th>Firma</th>
+                <th>Koltuk</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>25.07.2023</td>
+                <td>14:30</td>
+                <td>İstanbul</td>
+                <td>Ankara</td>
+                <td>Metro Turizm</td>
+                <td>12</td>
+              </tr>
+              <tr>
+                <td>03.08.2023</td>
+                <td>09:15</td>
+                <td>Ankara</td>
+                <td>İzmir</td>
+                <td>Kamil Koç</td>
+                <td>8</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+      <!-- Biletlerim -->
+      <div id="tickets" class="tab-content">
+        <div class="panel-card">
+          <h2><i class="fas fa-ticket-alt"></i> Biletlerim</h2>
+          
+          <table>
+            <thead>
+              <tr>
+                <th>PNR-NO</th>
+                <th>Trip-ID</th>
+                <th>P-ID</th>
+                <th>Payment-ID</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>BLT12345</td>
+                <td>SF001</td>
+                <td>P101</td>
+                <td>PMT789456</td>
+              </tr>
+              <tr>
+                <td>BLT12346</td>
+                <td>SF002</td>
+                <td>P102</td>
+                <td>PMT789457</td>
+              </tr>
+              <tr>
+                <td>BLT12340</td>
+                <td>SF003</td>
+                <td>P103</td>
+                <td>PMT789452</td>
+              </tr>
+              <tr>
+                <td>BLT12339</td>
+                <td>SF004</td>
+                <td>P104</td>
+                <td>PMT789451</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      
+      <!-- Profil Bilgileri -->
+      <div id="profile" class="tab-content">
+        <div class="panel-card">
+          <h2><i class="fas fa-user-edit"></i> Profil Bilgileri</h2>
+          <form id="profileForm">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="firstname">Ad</label>
+                <input type="text" id="firstname" value="Kullanıcı" required>
+              </div>
+              <div class="form-group">
+                <label for="lastname">Soyad</label>
+                <input type="text" id="lastname" value="Test" required>
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="email">E-posta Adresi</label>
+              <input type="email" id="email" value="kullanici@gmail.com" required readonly>
+              <small style="color: #757575; display: block; margin-top: 5px;">E-posta adresiniz değiştirilemez.</small>
+            </div>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label for="phone">Telefon</label>
+                <input type="tel" id="phone" value="0555 123 45 67" required>
+              </div>
+              <div class="form-group">
+                <label for="birthdate">Doğum Tarihi</label>
+                <input type="date" id="birthdate" value="1990-01-01" required>
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <label for="address">Adres</label>
+              <input type="text" id="address" value="Örnek Mahallesi, Örnek Sokak No:123, Örnek/İstanbul" required>
+            </div>
+            
+            <button type="button" class="btn-primary" onclick="alert('Profil bilgileriniz güncellendi!')">Bilgileri Güncelle</button>
+          </form>
+        </div>
+      </div>
+      
+      <!-- Şifre Değiştir -->
+      <div id="password" class="tab-content">
+        <div class="panel-card">
+          <h2><i class="fas fa-key"></i> Şifre Değiştir</h2>
+          <form id="passwordForm">
+            <div class="form-group">
+              <label for="current-password">Mevcut Şifre</label>
+              <input type="password" id="current-password" placeholder="Mevcut şifrenizi girin" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="new-password">Yeni Şifre</label>
+              <input type="password" id="new-password" placeholder="Yeni şifrenizi girin" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="confirm-password">Yeni Şifre (Tekrar)</label>
+              <input type="password" id="confirm-password" placeholder="Yeni şifrenizi tekrar girin" required>
+            </div>
+            
+            <button type="button" class="btn-primary" onclick="changePassword()">Şifreyi Değiştir</button>
+          </form>
+        </div>
+      </div>
+      
+      <!-- Bildirimler -->
+      <div id="notifications" class="tab-content">
+        <div class="panel-card">
+          <h2><i class="fas fa-bell"></i> Bildirimler</h2>
+          
+          <div style="padding: 20px 0; border-bottom: 1px solid #e0f7fa;">
+            <h3 style="margin-top: 0; color: #006064;">Bildirim Tercihleri</h3>
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+              <div>
+                <h4 style="margin: 0; color: #00838f;">E-posta Bildirimleri</h4>
+                <p style="margin: 5px 0 0; color: #757575;">Kampanyalar ve özel teklifler hakkında e-posta alın</p>
+              </div>
+              <label class="switch">
+                <input type="checkbox" checked>
+                <span class="slider round"></span>
+              </label>
+            </div>
+            
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+              <div>
+                <h4 style="margin: 0; color: #00838f;">SMS Bildirimleri</h4>
+                <p style="margin: 5px 0 0; color: #757575;">Seyahat hatırlatmaları ve değişiklikler için SMS alın</p>
+              </div>
+              <label class="switch">
+                <input type="checkbox" checked>
+                <span class="slider round"></span>
+              </label>
+            </div>
+            
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <div>
+                <h4 style="margin: 0; color: #00838f;">İndirim Duyuruları</h4>
+                <p style="margin: 5px 0 0; color: #757575;">Özel indirim ve kampanyalardan haberdar olun</p>
+              </div>
+              <label class="switch">
+                <input type="checkbox">
+                <span class="slider round"></span>
+              </label>
+            </div>
+          </div>
+          
+          <div style="padding: 20px 0;">
+            <h3 style="margin-top: 0; color: #006064;">Son Bildirimler</h3>
+            
+            <div style="padding: 15px; background-color: #f9fdfe; border-left: 4px solid #26c6da; margin-bottom: 15px;">
+              <h4 style="margin: 0; color: #00838f;">Yazın En Büyük İndirimi</h4>
+              <p style="margin: 5px 0 0; color: #757575;">Tüm seferlerde %25 indirim fırsatını kaçırmayın! Kampanya 15 Temmuz'da sona erecek.</p>
+              <small style="color: #9e9e9e; display: block; margin-top: 10px;">20.06.2023 - 14:30</small>
+            </div>
+            
+            <div style="padding: 15px; background-color: #f9fdfe; border-left: 4px solid #26c6da; margin-bottom: 15px;">
+              <h4 style="margin: 0; color: #00838f;">Seyahat Hatırlatması</h4>
+              <p style="margin: 5px 0 0; color: #757575;">İstanbul - Ankara seferinize 3 gün kaldı. Seyahat hazırlıklarınızı tamamlamayı unutmayın.</p>
+              <small style="color: #9e9e9e; display: block; margin-top: 10px;">22.07.2023 - 09:15</small>
+            </div>
+            
+            <div style="padding: 15px; background-color: #f9fdfe; border-left: 4px solid #26c6da;">
+              <h4 style="margin: 0; color: #00838f;">Mobil Uygulamamız Yayında</h4>
+              <p style="margin: 5px 0 0; color: #757575;">Artık mobil uygulamamızı kullanarak daha hızlı ve kolay bilet alabilirsiniz. Hemen indir!</p>
+              <small style="color: #9e9e9e; display: block; margin-top: 10px;">15.06.2023 - 11:45</small>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Bilet Satın Al -->
+      <div id="buy-ticket" class="tab-content">
+        <div class="panel-card">
+          <h2><i class="fas fa-shopping-cart"></i> Bilet Satın Al</h2>
+          
+          <form id="routeSearchForm">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="departure">Nereden</label>
+                <select id="departure" required>
+                  <option value="">Seçiniz</option>
+                  <option value="istanbul">İstanbul</option>
+                  <option value="ankara">Ankara</option>
+                  <option value="izmir">İzmir</option>
+                  <option value="antalya">Antalya</option>
+                  <option value="bursa">Bursa</option>
+                  <option value="adana">Adana</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="arrival">Nereye</label>
+                <select id="arrival" required>
+                  <option value="">Seçiniz</option>
+                  <option value="istanbul">İstanbul</option>
+                  <option value="ankara">Ankara</option>
+                  <option value="izmir">İzmir</option>
+                  <option value="antalya">Antalya</option>
+                  <option value="bursa">Bursa</option>
+                  <option value="adana">Adana</option>
+                </select>
+              </div>
+            </div>
+            
+            <div class="form-row">
+              <div class="form-group">
+                <label for="travel-date">Tarih</label>
+                <input type="date" id="travel-date" required min="">
+              </div>
+              <div class="form-group">
+                <label for="passengers">Yolcu Sayısı</label>
+                <select id="passengers" required>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                </select>
+              </div>
+            </div>
+            
+            <button type="button" class="btn-primary" onclick="searchRoutes()">Sefer Ara</button>
+          </form>
+        </div>
+        
+        <div id="routeResults" class="panel-card" style="display: none;">
+          <h2><i class="fas fa-list"></i> Bulunan Seferler</h2>
+          <div id="routesList">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <style>
+    /* Toggle Switch Stili */
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 60px;
+      height: 34px;
+    }
+
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #ccc;
+      transition: .4s;
+    }
+
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 26px;
+      width: 26px;
+      left: 4px;
+      bottom: 4px;
+      background-color: white;
+      transition: .4s;
+    }
+
+    input:checked + .slider {
+      background-color: #26c6da;
+    }
+
+    input:focus + .slider {
+      box-shadow: 0 0 1px #26c6da;
+    }
+
+    input:checked + .slider:before {
+      transform: translateX(26px);
+    }
+
+    .slider.round {
+      border-radius: 34px;
+    }
+
+    .slider.round:before {
+      border-radius: 50%;
+    }
+  </style>
+  
+  <script>
+    function showTab(tabId, element) {
+      // Hide all tabs
+      document.querySelectorAll('.tab-content').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      
+      // Show selected tab
+      document.getElementById(tabId).classList.add('active');
+      
+      // Update active menu item
+      document.querySelectorAll('.sidebar-menu a').forEach(link => {
+        link.classList.remove('active');
+      });
+      
+      if (element) {
+        element.classList.add('active');
+      }
+    }
+    
+    function changePassword() {
+      const currentPassword = document.getElementById('current-password').value;
+      const newPassword = document.getElementById('new-password').value;
+      const confirmPassword = document.getElementById('confirm-password').value;
+      
+      if (!currentPassword || !newPassword || !confirmPassword) {
+        alert('Lütfen tüm alanları doldurun!');
+        return;
+      }
+      
+      if (currentPassword !== 'kullanici') {
+        alert('Mevcut şifre hatalı!');
+        return;
+      }
+      
+      if (newPassword !== confirmPassword) {
+        alert('Yeni şifreler eşleşmiyor!');
+        return;
+      }
+      
+      alert('Şifreniz başarıyla değiştirildi!');
+      document.getElementById('passwordForm').reset();
+    }
+
+    // Bilet Satın Alma İşlevleri
+    document.addEventListener('DOMContentLoaded', function() {
+      // Tarih alanı için bugünün tarihini minimum değer olarak ayarla
+      const today = new Date().toISOString().split('T')[0];
+      document.getElementById('travel-date').min = today;
+    });
+
+    // Rotaları arama ve listeleme
+    function searchRoutes() {
+      const departure = document.getElementById('departure').value;
+      const arrival = document.getElementById('arrival').value;
+      const travelDate = document.getElementById('travel-date').value;
+      const passengers = document.getElementById('passengers').value;
+      
+      if (!departure || !arrival || !travelDate || !passengers) {
+        alert('Lütfen tüm alanları doldurun!');
+        return;
+      }
+      
+      if (departure === arrival) {
+        alert('Kalkış ve varış noktaları aynı olamaz!');
+        return;
+      }
+      
+      // Örnek seferleri göster
+      showRouteResults(departure, arrival, travelDate, passengers);
+    }
+    
+    function showRouteResults(departure, arrival, travelDate, passengers) {
+      const routeResults = document.getElementById('routeResults');
+      const routesList = document.getElementById('routesList');
+      routeResults.style.display = 'block';
+      
+      // Örnek tarih formatı
+      const formattedDate = new Date(travelDate).toLocaleDateString('tr-TR');
+      
+      // Şehir isimlerini büyük harfle başlat
+      const formattedDeparture = departure.charAt(0).toUpperCase() + departure.slice(1);
+      const formattedArrival = arrival.charAt(0).toUpperCase() + arrival.slice(1);
+      
+      // Örnek seferler
+      const routes = [
+        {
+          id: 1,
+          company: 'Metro Turizm',
+          logo: 'https://via.placeholder.com/40',
+          price: '250,00 TL',
+          departureTime: '08:30',
+          arrivalTime: '14:30',
+          duration: '6s',
+          features: ['2+1 Koltuk', 'Wi-Fi', 'USB', 'TV']
+        },
+        {
+          id: 2,
+          company: 'Kamil Koç',
+          logo: 'https://via.placeholder.com/40',
+          price: '275,00 TL',
+          departureTime: '10:00',
+          arrivalTime: '16:15',
+          duration: '6s 15d',
+          features: ['2+1 Koltuk', 'Wi-Fi', 'Yemek', 'TV']
+        },
+        {
+          id: 3,
+          company: 'Pamukkale',
+          logo: 'https://via.placeholder.com/40',
+          price: '245,00 TL',
+          departureTime: '12:45',
+          arrivalTime: '18:30',
+          duration: '5s 45d',
+          features: ['2+1 Koltuk', 'Wi-Fi', 'USB']
+        },
+        {
+          id: 4,
+          company: 'Nilüfer',
+          logo: 'https://via.placeholder.com/40',
+          price: '230,00 TL',
+          departureTime: '16:30',
+          arrivalTime: '22:15',
+          duration: '5s 45d',
+          features: ['2+1 Koltuk', 'USB']
+        }
+      ];
+      
+      // Rota sonuçlarını temizle
+      routesList.innerHTML = '';
+      
+      // Seferleri listele
+      routes.forEach(route => {
+        const routeCard = document.createElement('div');
+        routeCard.className = 'route-card';
+        routeCard.id = `route-${route.id}`;
+        
+        routeCard.innerHTML = `
+          <div class="route-header">
+            <div class="route-company">
+              <img src="${route.logo}" alt="${route.company}">
+              <h3>${route.company}</h3>
+            </div>
+            <div class="route-price">${route.price}</div>
+          </div>
+          
+          <div class="route-details">
+            <div class="route-info">
+              <div class="route-city">${formattedDeparture}</div>
+              <div class="route-time">${route.departureTime}</div>
+              <div class="route-date">${formattedDate}</div>
+            </div>
+            
+            <div class="route-journey">
+              <i class="fas fa-arrow-right"></i>
+              <div>${route.duration}</div>
+              <i class="fas fa-arrow-right"></i>
+            </div>
+            
+            <div class="route-info">
+              <div class="route-city">${formattedArrival}</div>
+              <div class="route-time">${route.arrivalTime}</div>
+              <div class="route-date">${formattedDate}</div>
+            </div>
+          </div>
+          
+          <div class="route-features">
+            ${route.features.map(feature => `<div class="feature"><i class="fas fa-check"></i> ${feature}</div>`).join('')}
+          </div>
+          
+          <div style="text-align: center; margin-top: 15px;">
+            <button class="btn-primary" onclick="selectSeats(${route.id}, '${route.company}', '${formattedDeparture}', '${formattedArrival}', '${formattedDate}', '${route.departureTime}', '${route.price}')">Koltuk Seç</button>
+          </div>
+          
+          <div id="seats-${route.id}" class="seat-selection">
+            <h3>Koltuk Seçimi</h3>
+            <p>Lütfen ${passengers} adet koltuk seçiniz:</p>
+            <div class="bus-layout">
+              ${generateSeats(route.id)}
+            </div>
+            <div style="text-align: center; margin-top: 20px;">
+              <button class="btn-primary" onclick="proceedToPayment(${route.id})">Ödemeye Geç</button>
+            </div>
+          </div>
+        `;
+        
+        routesList.appendChild(routeCard);
+      });
+    }
+    
+    function generateSeats(routeId) {
+      // Koltuk düzeni oluştur (2+1 düzeni)
+      let seatsHTML = '';
+      
+      for (let row = 1; row <= 10; row++) {
+        // Sol taraf (2 koltuk)
+        seatsHTML += `<div class="seat ${Math.random() > 0.7 ? 'occupied' : ''}" data-seat="A${row}" onclick="toggleSeat(this)">A${row}</div>`;
+        seatsHTML += `<div class="seat ${Math.random() > 0.7 ? 'occupied' : ''}" data-seat="B${row}" onclick="toggleSeat(this)">B${row}</div>`;
+        
+        // Orta koridor
+        seatsHTML += `<div class="seat empty"></div>`;
+        
+        // Sağ taraf (1 koltuk)
+        seatsHTML += `<div class="seat ${Math.random() > 0.7 ? 'occupied' : ''}" data-seat="C${row}" onclick="toggleSeat(this)">C${row}</div>`;
+      }
+      
+      return seatsHTML;
+    }
+    
+    function selectSeats(routeId, company, departure, arrival, date, time, price) {
+      // Tüm koltuk seçim bölümlerini gizle
+      document.querySelectorAll('.seat-selection').forEach(element => {
+        element.style.display = 'none';
+      });
+      
+      // Seçilen seferin koltuk seçimini göster
+      document.getElementById(`seats-${routeId}`).style.display = 'block';
+      
+      // Koltuk seçim bölümüne kaydır
+      document.getElementById(`seats-${routeId}`).scrollIntoView({ behavior: 'smooth' });
+    }
+    
+    function toggleSeat(seat) {
+      if (seat.classList.contains('occupied')) {
+        return;
+      }
+      
+      seat.classList.toggle('selected');
+    }
+    
+    function proceedToPayment(routeId) {
+      const selectedSeats = document.querySelectorAll(`#seats-${routeId} .seat.selected`);
+      
+      if (selectedSeats.length === 0) {
+        alert('Lütfen en az bir koltuk seçiniz!');
+        return;
+      }
+      
+      const seatNumbers = Array.from(selectedSeats).map(seat => seat.dataset.seat).join(', ');
+      
+      // Örnek route bilgilerini al
+      const routes = [
+        {
+          id: 1,
+          company: 'Metro Turizm',
+          price: '250,00 TL',
+          departureTime: '08:30'
+        },
+        {
+          id: 2,
+          company: 'Kamil Koç',
+          price: '275,00 TL',
+          departureTime: '10:00'
+        },
+        {
+          id: 3,
+          company: 'Pamukkale',
+          price: '245,00 TL',
+          departureTime: '12:45'
+        },
+        {
+          id: 4,
+          company: 'Nilüfer',
+          price: '230,00 TL',
+          departureTime: '16:30'
+        }
+      ];
+      
+      // Seçilen rotayı bul
+      const selectedRoute = routes.find(route => route.id === routeId);
+      
+      // Form bilgilerini al
+      const departure = document.getElementById('departure').value;
+      const arrival = document.getElementById('arrival').value;
+      const travelDate = document.getElementById('travel-date').value;
+      const passengers = document.getElementById('passengers').value;
+      
+      // Tarih formatını değiştir (ISO -> tr locale)
+      const formattedDate = new Date(travelDate).toLocaleDateString('tr-TR');
+      
+      // Şehir isimlerini büyük harfle başlat
+      const formattedDeparture = departure.charAt(0).toUpperCase() + departure.slice(1);
+      const formattedArrival = arrival.charAt(0).toUpperCase() + arrival.slice(1);
+      
+      // URL parametrelerini oluştur
+      const params = new URLSearchParams();
+      params.append('company', selectedRoute.company);
+      params.append('departure', formattedDeparture);
+      params.append('arrival', formattedArrival);
+      params.append('date', formattedDate);
+      params.append('time', selectedRoute.departureTime);
+      params.append('seats', seatNumbers);
+      params.append('passengerCount', selectedSeats.length);
+      params.append('price', selectedRoute.price);
+      
+      // Ödeme sayfasına yönlendirme
+      window.location.href = `odeme.html?${params.toString()}`;
+    }
+  </script>
+</body>
+</html> 

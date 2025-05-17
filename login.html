@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Giriş Yap / Kaydol - Bilet Al</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom, #e0f7fa, #b2ebf2, #ffffff);
+      color: #004d40;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    nav {
+      background-color: #b2ebf2;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    nav .logo a {
+      text-decoration: none;
+      color: #004d40;
+      font-weight: bold;
+    }
+    
+    .container {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    
+    .login-options {
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+      width: 100%;
+      max-width: 500px;
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    .title {
+      text-align: center;
+      margin-bottom: 20px;
+      color: #006064;
+    }
+    
+    .login-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      border-radius: 8px;
+      background-color: #4dd0e1;
+      color: white;
+      text-decoration: none;
+      font-size: 1.1rem;
+      font-weight: bold;
+      transition: all 0.3s;
+      cursor: pointer;
+      border: none;
+    }
+    
+    .login-button:hover {
+      background-color: #00acc1;
+      transform: translateY(-3px);
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    }
+    
+    .user-login {
+      background-color: #26c6da;
+    }
+    
+    .admin-login {
+      background-color: #00838f;
+    }
+    
+    .login-button i {
+      margin-right: 10px;
+      font-size: 1.3rem;
+    }
+    
+    .back-button {
+      display: block;
+      text-align: center;
+      margin-top: 20px;
+      color: #00838f;
+      text-decoration: none;
+    }
+    
+    .back-button:hover {
+      text-decoration: underline;
+    }
+    
+    footer {
+      margin-top: auto;
+      background-color: #b2ebf2;
+      padding: 20px 0;
+      text-align: center;
+    }
+    
+    footer .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+    }
+    
+    footer a {
+      color: #004d40;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="logo">
+      <a href="anasayfa.html"><strong>Bilet Al</strong></a>
+    </div>
+  </nav>
+  
+  <div class="container">
+    <div class="login-options">
+      <h1 class="title">Giriş Yap / Kaydol</h1>
+      
+      <button onclick="window.location.href='user-login.html'" class="login-button user-login">
+        <i class="fas fa-user"></i> Kullanıcı Girişi
+      </button>
+      
+      <button onclick="window.location.href='admin-login.html'" class="login-button admin-login">
+        <i class="fas fa-user-shield"></i> Admin Girişi
+      </button>
+      
+      <p style="text-align: center; margin-top: 20px;">
+        Henüz üye değil misiniz? <a href="register.html" style="color: #00838f; font-weight: bold;">Hemen Kaydolun</a>
+      </p>
+      
+      <a href="anasayfa.html" class="back-button">Ana Sayfaya Dön</a>
+    </div>
+  </div>
+  
+  <footer>
+    <div class="footer-links">
+      <a href="hakkimizda.html">Hakkımızda</a>
+      <a href="gizlilik.html">Gizlilik Politikası</a>
+      <a href="iletisim.html">İletişim</a>
+    </div>
+  </footer>
+
+</body>
+</html>

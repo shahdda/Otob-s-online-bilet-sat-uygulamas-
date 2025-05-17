@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kullanıcı Girişi - Bilet Al</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom, #e0f7fa, #b2ebf2, #ffffff);
+      color: #004d40;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    nav {
+      background-color: #b2ebf2;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    nav .logo a {
+      text-decoration: none;
+      color: #004d40;
+      font-weight: bold;
+    }
+    
+    .container {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+    }
+    
+    .login-form {
+      width: 100%;
+      max-width: 400px;
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 40px;
+      border-radius: 10px;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    }
+    
+    .title {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #006064;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: bold;
+      color: #00838f;
+    }
+    
+    .form-group input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 5px;
+      border: 1px solid #b2ebf2;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+    
+    .form-group input:focus {
+      outline: none;
+      border-color: #00acc1;
+      box-shadow: 0 0 5px rgba(0, 172, 193, 0.3);
+    }
+    
+    .submit-btn {
+      width: 100%;
+      padding: 14px;
+      background-color: #26c6da;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s, transform 0.3s;
+      margin-top: 10px;
+    }
+    
+    .submit-btn:hover {
+      background-color: #00acc1;
+      transform: translateY(-3px);
+    }
+    
+    .links {
+      margin-top: 20px;
+      text-align: center;
+    }
+    
+    .links a {
+      color: #00838f;
+      text-decoration: none;
+      margin: 0 10px;
+    }
+    
+    .links a:hover {
+      text-decoration: underline;
+    }
+    
+    footer {
+      margin-top: auto;
+      background-color: #b2ebf2;
+      padding: 20px 0;
+      text-align: center;
+    }
+    
+    footer .footer-links {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+    }
+    
+    footer a {
+      color: #004d40;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    
+    footer a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="logo">
+      <a href="anasayfa.html"><strong>Bilet Al</strong></a>
+    </div>
+  </nav>
+  
+  <div class="container">
+    <div class="login-form">
+      <h1 class="title">Kullanıcı Girişi</h1>
+      
+      <form action="anasayfa.html" method="post" id="loginForm">
+        <div class="form-group">
+          <label for="email">E-posta Adresi</label>
+          <input type="email" id="email" name="email" required placeholder="E-posta adresinizi girin">
+        </div>
+        
+        <div class="form-group">
+          <label for="password">Şifre</label>
+          <input type="password" id="password" name="password" required placeholder="Şifrenizi girin">
+        </div>
+        
+        <button type="submit" class="submit-btn">Giriş Yap</button>
+      </form>
+      
+      <div class="links">
+        <a href="forgot-password.html">Şifremi Unuttum</a>
+        <a href="register.html">Kaydol</a>
+      </div>
+      
+      <div class="links" style="margin-top: 30px;">
+        <a href="login.html"><i class="fas fa-arrow-left"></i> Geri Dön</a>
+      </div>
+    </div>
+  </div>
+  
+  <footer>
+    <div class="footer-links">
+      <a href="hakkimizda.html">Hakkımızda</a>
+      <a href="gizlilik.html">Gizlilik Politikası</a>
+      <a href="iletisim.html">İletişim</a>
+    </div>
+  </footer>
+  
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      
+      // Get the input values
+      const email = document.getElementById('email').value;
+      const password = document.getElementById('password').value;
+      
+      // Simple authentication - check if email is "kullanici@gmail.com" and password is "kullanici"
+      if (email === "kullanici@gmail.com" && password === "kullanici") {
+        // Successful login - redirect to user panel
+        window.location.href = "user-panel.html";
+      } else {
+        // Failed login - show error message
+        alert("Hatalı kullanıcı adı veya şifre! Lütfen tekrar deneyin.");
+      }
+    });
+  </script>
+</body>
+</html> 

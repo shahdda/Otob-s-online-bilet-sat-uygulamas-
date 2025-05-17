@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <title>Koltuk Seçimi</title>
+  <style>
+    body {
+      background-color: #e0f7fa;
+      font-family: Arial, sans-serif;
+      padding: 30px;
+    }
+
+    h2 {
+      text-align: center;
+      color: black;
+    }
+
+    .bus {
+      display: grid;
+      grid-template-columns: 60px 20px 60px 60px;
+      grid-gap: 15px;
+      justify-content: center;
+      margin: 40px auto;
+      max-width: 350px;
+    }
+
+    .seat {
+      background-color: #c8e6c9;
+      border: 1px solid #388e3c;
+      border-radius: 10px;
+      text-align: center;
+      padding: 15px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .seat.selected {
+      background-color: #ffcc80;
+    }
+
+    .seat.occupied {
+      background-color: #b0bec5;
+      cursor: not-allowed;
+    }
+
+    .empty {
+      visibility: hidden;
+    }
+
+    button {
+      display: block;
+      margin: 0 auto;
+      margin-top: 30px;
+      padding: 12px 24px;
+      background-color: #43a047;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h2>Koltuk Seçimi</h2>
+
+  <div class="bus" id="bus">
+    <!-- Koltuklar JS ile oluşturulacak -->
+  </div>
+
+  <button onclick="devamEt()">Devam Et</button>
+
+  <script>
+    const doluKoltuklar = [2, 5, 12, 28, 40]; // örnek dolu koltuklar
+    const bus = document.getElementById("bus");
+    let koltukNumarasi = 1;
+
+    // 15 sıra × 3 koltuk = 45 koltuk
+    for (let i = 0; i < 15; i++) {
+      for (let j = 0; j < 4; j++) {
+        if (j === 1) {
+          const empty = document.createElement("div");
+          empty.classList.add("empty");
+          bus.appendChild(empty);
+          continue;
+        }
+
+        const seat = document.createElement("div");
+        seat.classList.add("seat");
+        seat.textContent = koltukNumarasi;
+
+        if (doluKoltuklar.includes(koltukNumarasi)) {
+          seat.classList.add("occupied");
+        } else {
+          seat.addEventListener("click", function () {
+            seat.classList.toggle("selected");
+          });
+        }
+
+        bus.appendChild(seat);
+        koltukNumarasi++;
+      }
+    }
+
+    function devamEt() {
+      const secilenler = document.querySelectorAll(".seat.selected");
+      const secilenKoltuklar = [...secilenler].map(k => k.textContent);
+      if (secilenKoltuklar.length === 0) {
+        alert("Lütfen en az 1 koltuk seçin.");
+        return;
+      }
+
+      alert("Seçilen Koltuklar: " + secilenKoltuklar.join(", "));
+      // window.location.href = "odeme.html";
+    }
+  </script>
+</body>
+</html>
